@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
 #
-# pg-backup-restore.sh — Backup, restore, list, and verify Postgres dumps
+# backup-restore.sh — Backup, restore, list, and verify Postgres dumps
 # running in a Docker container. Works against any project's Postgres
 # container; nothing here is tied to a specific project.
 #
 # Usage:
-#   pg-backup-restore.sh backup  [-c <container>] [label]         [-u user] [-n dbname] [-d backup-dir]
-#   pg-backup-restore.sh restore [-c <container>] <target>        [-u user] [-n dbname] [-d backup-dir]
-#   pg-backup-restore.sh list                                     [-d backup-dir]
-#   pg-backup-restore.sh verify  [-c <container>] <target> [--fix]
+#   backup-restore.sh backup  [-c <container>] [label]         [-u user] [-n dbname] [-d backup-dir]
+#   backup-restore.sh restore [-c <container>] <target>        [-u user] [-n dbname] [-d backup-dir]
+#   backup-restore.sh list                                     [-d backup-dir]
+#   backup-restore.sh verify  [-c <container>] <target> [--fix]
 #
 # Flags:
 #   -c, --container <name>   Postgres container name (default: see CONTAINER below)
@@ -22,11 +22,11 @@
 #   - a full path to a .backup file
 #
 # Examples:
-#   pg-backup-restore.sh backup -c my_postgres                    # timestamped backup
-#   pg-backup-restore.sh backup -c my_postgres pre-migration      # labeled backup
-#   pg-backup-restore.sh list
-#   pg-backup-restore.sh verify -c my_postgres 2026-07-02_143000
-#   pg-backup-restore.sh restore -c my_postgres 2026-07-02_143000 # auto-fixes CRLF corruption
+#   backup-restore.sh backup -c my_postgres                    # timestamped backup
+#   backup-restore.sh backup -c my_postgres pre-migration      # labeled backup
+#   backup-restore.sh list
+#   backup-restore.sh verify -c my_postgres 2026-07-02_143000
+#   backup-restore.sh restore -c my_postgres 2026-07-02_143000 # auto-fixes CRLF corruption
 
 set -euo pipefail
 
