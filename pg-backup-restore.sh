@@ -44,9 +44,11 @@ err()  { echo "ERROR: $*" >&2; }
 info() { echo "==> $*"; }
 warn() { echo "WARNING: $*" >&2; }
 
-CONTAINER=""
-DB_USER="postgres"
-DB_NAME="postgres"
+# Defaults set for KABS for now — override with -c/-u/-n, or change these
+# directly if you point this clone of the script at a different project.
+CONTAINER="postgresql-h2ao6kswvxdqxa2az9wl2td8"
+DB_USER="kabs"
+DB_NAME="kabs"
 BACKUP_DIR="$(pwd)/backup"
 
 # Per-project defaults: source ./.pgdbrc if present, before flags are parsed,
