@@ -11,20 +11,11 @@
 #   pg-backup-restore.sh verify  [-c <container>] <target> [--fix]
 #
 # Flags:
-#   -c, --container <name>   Postgres container name (required unless set via .pgdbrc)
-#   -u, --db-user <user>     Database user   (default: postgres)
-#   -n, --db-name <name>     Database name   (default: postgres)
+#   -c, --container <name>   Postgres container name (default: see CONTAINER below)
+#   -u, --db-user <user>     Database user   (default: see DB_USER below)
+#   -n, --db-name <name>     Database name   (default: see DB_NAME below)
 #   -d, --backup-dir <path>  Backup directory (default: ./backup, relative to cwd)
 #   -h, --help                Help
-#
-# Per-project defaults (.pgdbrc):
-#   If a file named .pgdbrc exists in the current directory, it is sourced
-#   before flags are parsed, so you can set CONTAINER/DB_USER/DB_NAME/BACKUP_DIR
-#   once per project instead of passing them every time. CLI flags still
-#   override whatever .pgdbrc sets. Example .pgdbrc:
-#     CONTAINER=my_postgres
-#     DB_USER=myapp
-#     DB_NAME=myapp
 #
 # <target> for restore/verify can be:
 #   - a timestamped folder name under the backup dir, e.g. 2026-07-02_143000
@@ -36,7 +27,6 @@
 #   pg-backup-restore.sh list
 #   pg-backup-restore.sh verify -c my_postgres 2026-07-02_143000
 #   pg-backup-restore.sh restore -c my_postgres 2026-07-02_143000 # auto-fixes CRLF corruption
-#   pg-backup-restore.sh backup                                   # uses ./.pgdbrc for -c/-u/-n
 
 set -euo pipefail
 
@@ -51,16 +41,8 @@ DB_USER="kabs"
 DB_NAME="kabs"
 BACKUP_DIR="$(pwd)/backup"
 
-# Per-project defaults: source ./.pgdbrc if present, before flags are parsed,
-# so CLI flags can still override anything it sets.
-if [ -f "./.pgdbrc" ]; then
-    info "Loaded project config from ./.pgdbrc"
-    # shellcheck source=/dev/null
-    source "./.pgdbrc"
-fi
-
 show_usage() {
-    sed -n '2,39p' "$0" | sed 's/^# \{0,1\}//'
+    sed -n '2,29p' "$0" | sed 's/^# \{0,1\}//'
 }
 
 check_docker() {
